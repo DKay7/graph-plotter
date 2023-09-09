@@ -1,17 +1,29 @@
-import numpy as np
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+from sys import argv, exit
 
 
-def process_cmd_args():
-    pass
+def _process_cmd_args():
+    if len(argv) != 2:
+        print(f"Usage: {argv[0]} input_file_name.csv")
+        exit(1)
 
-def read_file_data():
-    pass
+    return argv[1]
 
-def plot_graph(array_of_pairs):
-    graph = nx.from_np_array()
+
+def _read_file_data(filename):
+    data = pd.read_csv(filename)
+    return data
+
+
+def _plot_graph(array_of_pairs):
+    graph = nx.from_pandas_edgelist(array_of_pairs, "from", "to", "from")
+    nx.draw(graph, with_labels=True)
+    plt.show()
+
 
 if __name__ == "__main__":
-    process_cmd_args()
+    filename = _process_cmd_args()
+    parsed_data = _read_file_data(filename)
+    _plot_graph(parsed_data)
